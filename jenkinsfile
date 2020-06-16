@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+    environment {
+       DD_CLIENT_API_KEY = '7d84a5b764750e2e0415ebb149f3b26e'
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'echo "Hello World"'
+                sh '''
+                    echo "Multiline shell steps works too"
+                    ls -lah
+                '''
+                sh """
+                  sudo /usr/bin/curl -X POST \
+                  https://api.datadoghq.com/api/v1/events?api_key=${DD_CLIENT_API_KEY} \
+                  -H 'Content-Type: application/json' \
+                  -d '{
+                   "text":[
+                            {
+                             " Build Number :${BUILD_NUMBER}, 
+                             JOB_NAME : ${JOB_NAME} ",
+                            }
+                          ],
+                   "title": "JENKINS: Test Deploy events ?"
+                    }'
+                 """
+            }
+        }
+    }
+}
