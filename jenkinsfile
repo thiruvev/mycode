@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-       DD_CLIENT_API_KEY = '7d84a5b764750e2e0415ebb149f3b26e'
+       DD_CLIENT_API_KEY = 'x'
     }
     stages {
         stage('Build') {
